@@ -18,7 +18,7 @@ if "conversation_id" not in st.session_state:
 
 # Set up OpenAI API key
 openai.api_key = st.secrets["API_KEY"]
-client = OpenAI()
+
 
 # If the user_id hasn't been set in session_state yet, try to retrieve it 
 js_code = """
@@ -238,6 +238,7 @@ if prompt := st.chat_input("Please type your full response in one message. Pleas
     #    messages=[{"role": "user", "content": "Hello, world!"}]
     #)
 
+    client = OpenAI()
     response = client.chat.completions.create(
         model="gpt-4-0125-preview",
         messages=conversation_history)
