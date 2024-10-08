@@ -4,6 +4,9 @@ import streamlit as st
 from datetime import datetime
 import mysql.connector
 import uuid
+from openai import OpenAI
+client = OpenAI()
+
 
 # Initialize session state for message tracking and other variables
 if "last_submission" not in st.session_state:
@@ -231,20 +234,27 @@ if prompt := st.chat_input("Please type your full response in one message. Pleas
     conversation_history = [instructions] + [{"role": m["role"], "content": m["content"]} for m in st.session_state["messages"]]
 
     # Call OpenAI API and display bot's response 
-    response = openai.completions.create(
-        model="gpt-4-turbo",
-        messages=[{"role": "user", "content": "Hello, world!"}]
-    )
+    #response = openai.Completions.create(
+    #    model="gpt-4-turbo",
+    #    messages=[{"role": "user", "content": "Hello, world!"}]
+    #)
+
+    response = client.chat.completions.create(
+        model="gpt-4-0125-preview",
+        messages=conversation_history)
+
+
+     # Call OpenAI API and display bot's response 
+    #response = openai.ChatCompletion.create(model="gpt-4-0125-preview", messages=conversation_history)
 
     # typing speed: 60 words per minute (fast typer)
-    countOfWords = len(response['choices'][0]['message']['content'].split())
+    countOfWords = len(response.choices[0].message.content.split())
     if countOfWords < 30:
         time.sleep(countOfWords/2.5)
     else:
         time.sleep(20)
 
-
-    bot_response = response['choices'][0]['message']['content']
+    bot_response = response.choices[0].message.content
 
     save_conversation(st.session_state["conversation_id"], "user_id", f"Bot: {bot_response}")
     st.session_state["messages"].append({"role": "assistant", "content": bot_response})
