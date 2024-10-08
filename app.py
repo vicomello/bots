@@ -5,6 +5,7 @@ from datetime import datetime
 import mysql.connector
 import uuid
 from openai import OpenAI
+import os
 
 # Initialize session state for message tracking and other variables
 if "last_submission" not in st.session_state:
@@ -18,6 +19,7 @@ if "conversation_id" not in st.session_state:
 
 # Set up OpenAI API key
 openai.api_key = st.secrets["API_KEY"]
+os.environ["OPENAI_API_KEY"] = st.secrets["API_KEY"]
 
 
 # If the user_id hasn't been set in session_state yet, try to retrieve it 
