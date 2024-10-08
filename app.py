@@ -231,7 +231,7 @@ if prompt := st.chat_input("Please type your full response in one message. Pleas
     conversation_history = [instructions] + [{"role": m["role"], "content": m["content"]} for m in st.session_state["messages"]]
 
     # Call OpenAI API and display bot's response 
-    response = openai.Completions.create(
+    response = openai.completions.create(
         model="gpt-4-turbo",
         messages=[{"role": "user", "content": "Hello, world!"}]
     )
