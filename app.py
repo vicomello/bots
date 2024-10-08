@@ -238,7 +238,7 @@ if prompt := st.chat_input("Please type your full response in one message. Pleas
 
     
     # typing speed: 60 words per minute (fast typer)
-    countOfWords = len(response.choices[0].message["content"]split())
+    countOfWords = len(response.choices[0].message["content"].split())
     if countOfWords < 30:
         time.sleep(countOfWords/2.5)
     else:
